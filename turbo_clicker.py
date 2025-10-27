@@ -69,12 +69,6 @@ def cleanup_hotkeys():
 
 
 def parse_arguments() -> argparse.Namespace:
-    """Cleanup emergency hotkey listener."""
-    if KEYBOARD_AVAILABLE:
-        try:
-            keyboard.unhook_all_hotkeys() # type: ignore
-        except Exception:
-            pass
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description='Turbo Clicker: Ultra-high speed clicking automation',
@@ -261,17 +255,17 @@ def turbo_click(x: int, y: int, clicks: Optional[int] = None, duration: Optional
                     break
                 
                 # Check if paused - wait until unpaused
-                while is_paused:
-                    if emergency_stop:
-                        break
+                while is_paused and not emergency_stop:
                     time.sleep(0.1)  # Small sleep to prevent busy waiting
                 
                 if emergency_stop:
                     break
-                    
-                # Perform the click
-                pg.click(x, y)
-                clicks_performed += 1
+                
+                # Only click if we're not paused (double check to prevent race conditions)
+                if not is_paused:
+                    # Perform the click
+                    pg.click(x, y)
+                    clicks_performed += 1
                 
                 # Check for pause prompt
                 elapsed = time.perf_counter() - start_time
@@ -299,17 +293,17 @@ def turbo_click(x: int, y: int, clicks: Optional[int] = None, duration: Optional
                     break
                 
                 # Check if paused - wait until unpaused
-                while is_paused:
-                    if emergency_stop:
-                        break
+                while is_paused and not emergency_stop:
                     time.sleep(0.1)  # Small sleep to prevent busy waiting
                 
                 if emergency_stop:
                     break
-                    
-                # Perform the click
-                pg.click(x, y)
-                clicks_performed += 1
+                
+                # Only click if we're not paused (double check to prevent race conditions)
+                if not is_paused:
+                    # Perform the click
+                    pg.click(x, y)
+                    clicks_performed += 1
                 
                 # Check for pause prompt
                 if pause_interval > 0 and clicks_performed % pause_interval == 0:
