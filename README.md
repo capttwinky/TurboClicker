@@ -9,9 +9,14 @@ Ultra-high speed clicking automation tool that can perform up to 1 million click
 Turbo Clicker uses [UV](https://docs.astral.sh/uv/) for fast Python package management. Install UV first:
 
 **Windows PowerShell (Recommended):**
+
+right click on the Windows logo key and paste in:
+
 ```powershell
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
+
+this will open a PowerShell window for just a moment.
 
 **Alternative methods:**
 - **winget**: `winget install astral-sh.uv`
@@ -19,6 +24,9 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 - **pipx**: `pipx install uv`
 
 **Verify installation:**
+
+Open PowerShell and enter:
+
 ```powershell
 uv --version
 ```
@@ -45,9 +53,14 @@ No manual installation required - UV handles everything automatically!
 - **Customizable Delays**: Optional delays between clicks for testing or specific applications
 
 ## Quick Start
+Open PowerShell, 
+`cd` to the dirctory your files are in and ....
 
 ### Basic Usage (Interactive coordinate selection)
 ```powershell
+# My normal command line, on my current computer:
+uv run --with pyautogui --with keyboard turbo_clicker.py --verbose --confirm --delay=.002
+
 # Click 1 million times at current mouse position
 uv run --with pyautogui --with keyboard turbo_clicker.py
 
